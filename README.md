@@ -15,13 +15,15 @@ Tested: `Ubuntu 5.9.0-050900rc6daily20200923-generic #202009222208 SMP Wed Sep 2
 ```cpp
 #include <liburing/io_service.hpp>
 
+using namespace std::literals;
+
 int main() {
     // You first need an io_service instance
-    io_service service;
+    uio::io_service service;
 
     // In order to `co_await`, you must be in a coroutine.
     // We use IIFE here for simplification
-    auto work = [&] () -> task<> {
+    auto work = [&] () -> uio::task<> {
         // Use Linux syscalls just as what you did before (except a little changes)
         const auto str = "Hello world\n"sv;
         co_await service.write(STDOUT_FILENO, str.data(), str.size(), 0);
